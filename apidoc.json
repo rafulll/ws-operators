@@ -1,0 +1,7 @@
+{
+    "name": "WS Operator",
+    "version": "1.0.0",
+    "description": "A API do operador intermediará a comunicação entre o vendedor e a bandeira do cartão de crédito.",
+    "title": "WS Operator - FAPCE",
+    "url" : "http://localhost/ws-operators/v1"
+}
