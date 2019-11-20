@@ -39,7 +39,7 @@ final class Routes {
             return $view;
         };
         $app->group("/v1", function() use ($app) {
-            $view = new \Slim\Views\PhpRenderer(__DIR__);
+            $view = new \Slim\Views\PhpRenderer("..\views");
             /* Métodos GET */
             $app->get("/status", array(OperatorController::class,"getStatus"));
             /* ----------- */
@@ -49,10 +49,10 @@ final class Routes {
                 ])->setName('v_home');
               });
               $app->get('/teste/{name}', function (Request $request, Response $response, array $args) use($view){
-                return $view->render($response, '..\views\v_home.php', ['name' =>$args['name']]);
+                return $view->render($response, '\v_home.php', ['name' =>$args['name']]);
               });
               $app->get('/pay', function (Request $request, Response $response, array $args) use ($view){
-                    return $view->render($response, '..\views\pay.php');
+                    return $view->render($response, '\pay.php');
               });
               $app->post("/pay/{operator}", array(OperatorController::class,"pay"));
             /* Métodos POST */
