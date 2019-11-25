@@ -1,13 +1,12 @@
 <?php
 
 namespace Config;
-
 use Slim\App;
 use Slim\Container;
 use Slim\Views\PhpRenderer;
 
 final class Config {
-    
+
     /* 
     * Use essa função para configurar o comportamento do framework.
     * ex.: displayErrorDetails=>true indica ao framework que 
@@ -46,6 +45,6 @@ final class Config {
      * será a partir da raiz do sistema.
      */
     private static function setRenderer(Container $container) {
-        $container['renderer'] = new PhpRenderer("./app/views");
+        $container['renderer'] = new PhpRenderer("./views");
     }
 }

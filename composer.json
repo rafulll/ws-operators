@@ -1,8 +1,9 @@
 {
     "require": {
-        "slim/slim": "3.12.2",
+        "slim/slim": "^4.3",
         "slim/php-view": "^2.2",
-        "slim/twig-view": "^2.5"
+        "slim/twig-view": "^2.5",
+        "calcinai/php-imagick": "^0.1.2"
     },
     "autoload": {
         "psr-4": {

@@ -41,26 +41,8 @@ final class OperatorController
         ];
 
 
+         
         $data[0] = $rq->getParsedBody();
-      
-        $url="http://localhost/ws-brands/v1/pay";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data[0]));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result=curl_exec($ch);
-        $c = json_decode($result);
-        $json_errors = array(
-            JSON_ERROR_NONE => 'No_errors',
-            JSON_ERROR_DEPTH => 'Yes, The maximum stack depth has been exceeded',
-            JSON_ERROR_CTRL_CHAR => 'Yes, Control character error, possibly incorrectly encoded',
-            JSON_ERROR_SYNTAX => 'Yes,_Syntax error',
-        );
-        
-        //echo 'Json_errors: __ ', $json_errors[json_last_error()], PHP_EOL, PHP_EOL;
-        //var_dump($c);
         if (!array_key_exists($args['operator'], $vdata[0])) {
 
             //var_dump($vdata[0][$args['operator']]['bandeiras_autorizadas']);
@@ -112,19 +94,27 @@ final class OperatorController
 
         } else {
                 //var_dump($vdata[0][$args['operator']]['bandeiras_autorizadas']);
+             
+      
+                $url="http://localhost/ws-brands/v1/pay";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data[0]));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $result=curl_exec($ch);
+                $c = json_decode($result);
+                $json_errors = array(
+                    JSON_ERROR_NONE => 'No_errors',
+                    JSON_ERROR_DEPTH => 'Yes, The maximum stack depth has been exceeded',
+                    JSON_ERROR_CTRL_CHAR => 'Yes, Control character error, possibly incorrectly encoded',
+                    JSON_ERROR_SYNTAX => 'Yes,_Syntax error',
+                );
                 
-               
-                        $url="http://localhost/ws-brands/v1/pay";
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL,$url);
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data[0]));
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        $result=curl_exec($ch);
-                        $c = json_decode($result);
-                        //var_dump($c);
-                       
+                //echo 'Json_errors: __ ', $json_errors[json_last_error()], PHP_EOL, PHP_EOL;
+                //var_dump($c);
+                        return $rs->withStatus(200)->withJson($c);
                               
 
                     }
