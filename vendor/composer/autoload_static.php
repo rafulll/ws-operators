@@ -29,6 +29,10 @@ class ComposerStaticInitf688d7d01c642c4263b890598bc4dd9f
         array (
             'FastRoute\\' => 10,
         ),
+        'D' => 
+        array (
+            'Dao\\' => 4,
+        ),
         'C' => 
         array (
             'Controllers\\V1\\' => 15,
@@ -64,6 +68,10 @@ class ComposerStaticInitf688d7d01c642c4263b890598bc4dd9f
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+        ),
+        'Dao\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/dao',
         ),
         'Controllers\\V1\\' => 
         array (

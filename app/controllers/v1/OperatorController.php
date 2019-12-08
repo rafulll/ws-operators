@@ -4,6 +4,7 @@ namespace Controllers\V1;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Dao\CartaoDao;
 
 final class OperatorController
 {
@@ -107,6 +108,9 @@ final class OperatorController
         ];
         return $res->withStatus(200)->withJson($dados);
     }
+    private function etl($data){
+        
+    }
     public static function pay(Request $rq, Response $rs, array $args)
     {
 
@@ -116,7 +120,8 @@ final class OperatorController
             unserialize(RULES)
         ];
 
-
+        $test = new CartaoDao();
+      
          
         $data[0] = $rq->getParsedBody();
         if (!array_key_exists($args['operator'], $vdata[0])) {
@@ -125,26 +130,22 @@ final class OperatorController
 
             $dados = [
                 //$rq->getParsedBody(),
+                "cod_erro" => 2,
                 "resultado" => "Falha",
                 "detalhes" => "Operador Inexistente",
                 "bandeira" => $data[0]['bandeira'],
                 "parcelas_solicitadas" =>  $data[0]['parcelas']
                 //"limite_parcelas" => $c->limite_parcelas
 
-
+              
             ];
+            $test->elt_add_fail_detail($dados);
             return $rs->withStatus(401)->withJson($dados);
         } elseif (!array_key_exists($data[0]['bandeira'], $vdata[0][$args['operator']]['bandeiras_autorizadas'])) { 
-            //var_dump($data[0]['bandeira']);
-            //var_dump($vdata[0][$args['operator']]['bandeiras_autorizadas']);
-            //var_dump($vdata[0][$args['operator']]['bandeiras_autorizadas']);
-            //$my_url = "http://localhost/ws-brands/v1/installment-limits/" . $data[0]['bandeira'] . "/" . $data[0]['parcelas'];
-
-            //var_dump($vdata[0][$args['operator']]['bandeiras_autorizadas']);
-
-
+     
             $dados = [
                 //$rq->getParsedBody(),
+                "cod_erro" => 3,
                 "resultado" => "Falha",
                 "detalhes" => "Bandeira Nao Autorizada para este operador",
                 "bandeira" => $data[0]['bandeira'],
@@ -153,26 +154,29 @@ final class OperatorController
 
 
             ];
+            $test->elt_add_fail_detail($dados);
+
             return $rs->withStatus(401)->withJson($dados);
 
         } elseif (!array_key_exists($data[0]['cod_loja'], $vdata[0][$args['operator']]['lojas_autorizadas'])) {
             $dados = [
                 //$rq->getParsedBody(),
+                "cod_erro" => 4,
                 "resultado" => "Falha",
                 "detalhes" => "Loja não autorizada.",
                 "bandeira" => $data[0]['bandeira'],
                 "parcelas_solicitadas" =>  $data[0]['parcelas'],
-              
-
-
             ];
+            $test->elt_add_fail_detail($dados);
+
             return $rs->withStatus(401)->withJson($dados);
 
         } else {
                 //var_dump($vdata[0][$args['operator']]['bandeiras_autorizadas']);
                 //echo "vai pedir brands";
-      
+                //var_dump($data[0]['bandeira']);
                 $url="http://localhost/ws-brands/v1/installments-limit/".$data[0]['bandeira'];
+                
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL,$url);
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -180,6 +184,7 @@ final class OperatorController
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data[0]));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $result=curl_exec($ch);
+                //var_dump($result);
                 $c = json_decode($result);
                 $json_errors = array(
                     JSON_ERROR_NONE => 'No_errors',
@@ -189,7 +194,7 @@ final class OperatorController
                 );
                 
                 echo 'Json_errors: __ ', $json_errors[json_last_error()], PHP_EOL, PHP_EOL;
-                //var_dump($c);
+                
                         return $rs->withStatus(200)->withJson($c);
                               
 

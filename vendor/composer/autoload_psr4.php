@@ -12,6 +12,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Interop\\Container\\' => array($vendorDir . '/container-interop/container-interop/src/Interop/Container'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
+    'Dao\\' => array($baseDir . '/app/dao'),
     'Controllers\\V1\\' => array($baseDir . '/app/controllers/v1'),
     'Config\\' => array($baseDir . '/app/config'),
     'App\\' => array($baseDir . '/app'),
